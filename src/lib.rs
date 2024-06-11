@@ -51,12 +51,13 @@ pub mod int;
     target_os = "none",
     target_os = "xous",
     all(target_vendor = "fortanix", target_env = "sgx"),
-    target_os = "windows"
+    target_os = "windows",
+    target_os = "optee",
 ))]
 pub mod math;
 pub mod mem;
 
-#[cfg(target_arch = "arm")]
+#[cfg(all(target_arch = "arm", not(target_os = "optee")))]
 pub mod arm;
 
 #[cfg(any(target_arch = "aarch64", target_arch = "arm64ec"))]

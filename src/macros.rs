@@ -244,7 +244,7 @@ macro_rules! intrinsics {
 
         $($rest:tt)*
     ) => (
-        #[cfg(target_arch = "arm")]
+        #[cfg(all(target_arch = "arm", not(target_os = "optee")))]
         intrinsics! {
             $(#[$($attr)*])*
             pub extern "aapcs" fn $name( $($argname: $ty),* ) $(-> $ret)? {
@@ -352,12 +352,12 @@ macro_rules! intrinsics {
 
         $($rest:tt)*
     ) => (
-        #[cfg(target_arch = "arm")]
+        #[cfg(all(target_arch = "arm", not(target_os = "optee")))]
         pub extern $abi fn $name( $($argname: $ty),* ) $(-> $ret)? {
             $($body)*
         }
 
-        #[cfg(target_arch = "arm")]
+        #[cfg(all(target_arch = "arm", not(target_os = "optee")))]
         pub mod $name {
             #[cfg_attr(not(feature = "mangled-names"), no_mangle)]
             #[cfg_attr(feature = "weak-intrinsics", linkage = "weak")]
@@ -366,7 +366,7 @@ macro_rules! intrinsics {
             }
         }
 
-        #[cfg(target_arch = "arm")]
+        #[cfg(all(target_arch = "arm", not(target_os = "optee")))]
         pub mod $alias {
             #[cfg_attr(not(feature = "mangled-names"), no_mangle)]
             #[cfg_attr(any(all(not(windows), not(target_vendor="apple")), feature = "weak-intrinsics"), linkage = "weak")]
